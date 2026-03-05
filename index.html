@@ -669,15 +669,15 @@
     <p class="login-sub">Este portal é de uso interno. Insira suas credenciais para continuar.</p>
     <div id="login-error">Usuário ou senha incorretos.</div>
     <div class="field">
-      <label>Usuário</label>
-      <input type="text" id="username" placeholder="seu.usuario" autocomplete="username">
+      <label>E-mail</label>
+      <input type="email" id="username" placeholder="seu@email.com" autocomplete="username">
     </div>
     <div class="field">
       <label>Senha</label>
       <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
     </div>
     <button class="btn-primary" onclick="doLogin()">Entrar</button>
-    <p class="login-hint">// acesso somente para membros autorizados</p>
+    <p class="login-hint">// autenticação via Supabase Auth</p>
   </div>
 </div>
 
@@ -709,9 +709,6 @@
       <a class="nav-item" onclick="showPage('sobre', this)">
         <span class="icon">ℹ️</span> Sobre a Plataforma
       </a>
-      <a class="nav-item" onclick="showPage('suporte', this)">
-        <span class="icon">💬</span> Suporte
-      </a>
 
       <div class="sidebar-spacer"></div>
 
@@ -738,12 +735,12 @@
 
         <div class="status-bar">
           <div class="status-item">
-            <div class="status-dot green"></div>
-            <span>OficinaAdmin <strong>v1.0.0</strong> — disponível</span>
+            <div class="status-dot red"></div>
+            <span>OficinaAdmin <strong>v1.0.0</strong> — indisponível</span>
           </div>
           <div class="status-item">
-            <div class="status-dot green"></div>
-            <span>OficinaCode <strong>v1.0.0</strong> — disponível</span>
+            <div class="status-dot red"></div>
+            <span>OficinaCode <strong>v1.0.0</strong> — indisponível</span>
           </div>
           <div class="status-item">
             <div class="status-dot green"></div>
@@ -919,78 +916,59 @@
           </div>
         </div>
       </div>
-
-      <!-- ── SUPORTE ───────────────────────────────────────────── -->
-      <div id="page-suporte" class="page">
-        <div class="page-header">
-          <div class="tag">💬 Suporte</div>
-          <h1>Suporte Técnico</h1>
-          <p>Dúvidas, problemas ou solicitações relacionados à plataforma.</p>
-        </div>
-
-        <div style="display:flex;flex-direction:column;gap:14px;max-width:600px;">
-
-          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;">
-            <div style="font-size:22px;margin-bottom:10px;">🐛</div>
-            <h3 style="font-size:15px;font-weight:700;margin-bottom:6px;">Reportar um problema</h3>
-            <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;">Encontrou um erro ou comportamento inesperado? Descreva o que aconteceu, em qual tela e quais passos levaram ao problema.</p>
-            <a href="mailto:suporte@oficinadoamanha.com.br" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#60A5FA;text-decoration:none;">
-              ✉ suporte@oficinадoamanha.com.br
-            </a>
-          </div>
-
-          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;">
-            <div style="font-size:22px;margin-bottom:10px;">📖</div>
-            <h3 style="font-size:15px;font-weight:700;margin-bottom:6px;">Documentação</h3>
-            <p style="font-size:13px;color:var(--muted);line-height:1.6;">A documentação técnica completa da plataforma — incluindo especificação da Sprint 1 e plano de evolução — está disponível com o responsável técnico do projeto.</p>
-          </div>
-
-          <div style="background:var(--surface);border:1px solid rgba(245,130,10,0.2);border-radius:12px;padding:22px;">
-            <div style="font-size:22px;margin-bottom:10px;">⚠️</div>
-            <h3 style="font-size:15px;font-weight:700;margin-bottom:6px;">Aviso de infraestrutura</h3>
-            <p style="font-size:13px;color:var(--muted);line-height:1.6;">A versão atual utiliza o plano gratuito do Supabase. Para operação com múltiplos usuários simultâneos, a contratação de infraestrutura adequada será necessária. Entre em contato com o responsável técnico para planejar essa transição.</p>
-          </div>
-
-        </div>
-      </div>
-
     </main>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // ── AUTH (demo — troque por integração real) ─────────────────────────────
-  const USUARIOS = {
-    "admin":    { senha: "oficina2026", nome: "Administrador", inicial: "A" },
-    "professor":{ senha: "prof2026",   nome: "Professor",      inicial: "P" },
-    "diretor":  { senha: "dir2026",    nome: "Diretor",        inicial: "D" },
-  };
+  // ── SUPABASE CONFIG ───────────────────────────────────────────────────────
+  // Substitua pelos valores do seu projeto em https://supabase.com/dashboard
+  const SUPABASE_URL  = 'https://iabajqkkodldjwcgvpiz.supabase.co';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlhYmFqcWtrb2RsZGp3Y2d2cGl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNDM5NjEsImV4cCI6MjA4NzcxOTk2MX0.xWQiPXGUHfZtZWOeReuw3Lf1D4qNCnlagIt6uWyxJK0';
 
-  function doLogin() {
-    const u = document.getElementById('username').value.trim().toLowerCase();
-    const s = document.getElementById('password').value;
-    const err = document.getElementById('login-error');
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-    if (USUARIOS[u] && USUARIOS[u].senha === s) {
-      err.style.display = 'none';
-      sessionStorage.setItem('oa_user', JSON.stringify({ user: u, ...USUARIOS[u] }));
-      iniciarPortal(USUARIOS[u]);
-    } else {
+  // ── AUTH ──────────────────────────────────────────────────────────────────
+  async function doLogin() {
+    const email = document.getElementById('username').value.trim();
+    const senha = document.getElementById('password').value;
+    const err   = document.getElementById('login-error');
+    const btn   = document.querySelector('.btn-primary');
+
+    btn.textContent = 'Entrando...';
+    btn.disabled = true;
+    err.style.display = 'none';
+
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: senha });
+
+    btn.textContent = 'Entrar';
+    btn.disabled = false;
+
+    if (error) {
+      err.textContent = 'E-mail ou senha incorretos.';
       err.style.display = 'block';
       document.getElementById('password').value = '';
       document.getElementById('password').focus();
+      return;
     }
+
+    iniciarPortal(data.user);
   }
 
-  function iniciarPortal(dados) {
+  function iniciarPortal(user) {
+    const email   = user.email || '';
+    const inicial = email.charAt(0).toUpperCase();
+    const nome    = user.user_metadata?.nome || email.split('@')[0];
+
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('portal').style.display = 'block';
-    document.getElementById('user-name').textContent = dados.nome;
-    document.getElementById('user-avatar').textContent = dados.inicial;
+    document.getElementById('user-name').textContent = nome;
+    document.getElementById('user-avatar').textContent = inicial;
   }
 
-  function doLogout() {
-    sessionStorage.removeItem('oa_user');
+  async function doLogout() {
+    await sb.auth.signOut();
     document.getElementById('portal').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('username').value = '';
@@ -1004,10 +982,18 @@
     }
   });
 
-  // Sessão persistente
-  window.addEventListener('DOMContentLoaded', () => {
-    const saved = sessionStorage.getItem('oa_user');
-    if (saved) iniciarPortal(JSON.parse(saved));
+  // Sessão persistente via Supabase
+  window.addEventListener('DOMContentLoaded', async () => {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session?.user) iniciarPortal(session.user);
+
+    // Listener para mudanças de sessão (ex: token expirado)
+    sb.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        document.getElementById('portal').style.display = 'none';
+        document.getElementById('login-screen').style.display = 'flex';
+      }
+    });
   });
 
   // ── NAVEGAÇÃO ────────────────────────────────────────────────────────────
@@ -1030,11 +1016,3 @@
       btn.innerHTML = '✔ Download iniciado!';
       setTimeout(() => {
         btn.innerHTML = orig;
-        btn.style.opacity = '1';
-      }, 2000);
-    }, 1200);
-    // Troque o href do <a> pelo link real do arquivo quando disponível
-  }
-</script>
-</body>
-</html>
