@@ -128,7 +128,6 @@
     padding: 120px 24px 80px;
   }
 
-  /* Radial glow behind the orbits */
   .hero-glow {
     position: absolute;
     width: 600px; height: 600px;
@@ -159,7 +158,6 @@
   .orbit-ring-1 {
     width: 220px; height: 220px;
     border-color: rgba(26,114,232,0.22);
-    animation: orbit-tilt-1 0s linear both;
     transform: translate(-50%, -50%) rotateX(70deg);
   }
 
@@ -175,14 +173,12 @@
     transform: translate(-50%, -50%) rotateX(65deg) rotateZ(-20deg);
   }
 
-  /* Dots (satellites) on the rings */
   .satellite {
     position: absolute;
     border-radius: 50%;
     top: 50%; left: 50%;
   }
 
-  /* Ring 1 satellite */
   .sat-1 {
     width: 110px; height: 110px;
     margin: -55px 0 0 -55px;
@@ -200,7 +196,6 @@
     box-shadow: 0 0 8px rgba(96,165,250,0.8);
   }
 
-  /* Ring 2 satellite */
   .sat-2 {
     width: 170px; height: 170px;
     margin: -85px 0 0 -85px;
@@ -218,7 +213,6 @@
     box-shadow: 0 0 8px rgba(147,197,253,0.7);
   }
 
-  /* Ring 3 satellite */
   .sat-3 {
     width: 235px; height: 235px;
     margin: -117px 0 0 -117px;
@@ -241,7 +235,6 @@
     to   { transform: rotate(360deg); }
   }
 
-  /* Center planet */
   .planet {
     position: absolute;
     width: 52px; height: 52px;
@@ -254,7 +247,6 @@
     animation: breathe 5s ease-in-out infinite;
   }
 
-  /* Highlight on planet */
   .planet::before {
     content: '';
     position: absolute;
@@ -489,22 +481,26 @@
     position: relative; z-index: 1;
   }
 
+  /* ── CARD ICON com logo imagem ──────────────────────────────── */
   .card-icon {
     width: 52px; height: 52px;
     border-radius: 14px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
     flex-shrink: 0;
+    overflow: hidden;
   }
 
-  .bloquin .card-icon {
-    background: rgba(245,130,10,0.12);
-    border: 1px solid rgba(245,130,10,0.2);
+  .card-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
+  .bloquin .card-icon,
   .sag .card-icon {
-    background: rgba(26,114,232,0.12);
-    border: 1px solid rgba(26,114,232,0.2);
+    background: transparent;
+    border: none;
+    padding: 0;
   }
 
   .card-name {
@@ -757,11 +753,12 @@
     <h1 class="hero-title"><span>ORBITA</span></h1>
     <p class="hero-sub">
       Ferramentas de ensino e gestão de aulas.
+    </p>
     <div class="hero-actions">
       <a href="#produtos" class="btn-hero-primary">
         ⬇ Baixar Bloquin
       </a>
-      <a href="https://www.mediafire.com/file/7d16s6q8xdw4ba3/bloquin.exe/file" class="btn-hero-secondary">
+      <a href="https://sagsite.vercel.app/" class="btn-hero-secondary">
         Acessar SAG →
       </a>
     </div>
@@ -784,7 +781,9 @@
     <!-- Bloquin -->
     <div class="product-card bloquin">
       <div class="card-header">
-        <div class="card-icon">🧩</div>
+        <div class="card-icon">
+          <img src="assets/Logo_Bloquin.png" alt="Bloquin logo">
+        </div>
         <div>
           <div class="card-name">Bloquin</div>
           <div class="card-tagline">Editor de programação em blocos</div>
@@ -816,15 +815,17 @@
         <span class="spec">64-bit</span>
         <span class="spec">~18 MB</span>
       </div>
-      <a href="#" class="btn-card" onclick="simDownload(event, 'Bloquin')">
-        ⬇ Baixar Bloquin
+      <a href="https://www.mediafire.com/file/7d16s6q8xdw4ba3/bloquin.exe/file" class="btn-card" target="_blank" rel="noopener">
+        Baixar Bloquin
       </a>
     </div>
 
     <!-- SAG -->
     <div class="product-card sag">
       <div class="card-header">
-        <div class="card-icon">🗂️</div>
+        <div class="card-icon">
+          <img src="assets/logo_SAG.png" alt="SAG logo">
+        </div>
         <div>
           <div class="card-name">SAG</div>
           <div class="card-tagline">Sistema de Aulas e Gestão</div>
@@ -856,7 +857,7 @@
         <span class="spec">Qualquer navegador</span>
       </div>
       <a href="https://sagsite.vercel.app/" class="btn-card">
-        → Acessar SAG
+        Acessar SAG
       </a>
     </div>
 
@@ -895,7 +896,7 @@
     <div style="width:24px;height:24px;background:linear-gradient(135deg,#1A72E8,#0D3C8A);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;">🪐</div>
     <span class="footer-brand-text">ORBITA</span>
   </div>
-  <span class="footer-copy">Robótica Educacional · 2026</span>
+  <span class="footer-copy">SAG · 2026</span>
 </footer>
 
 <script>
@@ -923,10 +924,10 @@
     e.preventDefault();
     const btn = e.currentTarget;
     const orig = btn.innerHTML;
-    btn.innerHTML = '⏳ Preparando download...';
+    btn.innerHTML = 'Preparando download...';
     btn.style.opacity = '0.7';
     setTimeout(() => {
-      btn.innerHTML = '✔ Download iniciado!';
+      btn.innerHTML = 'Download iniciado!';
       setTimeout(() => {
         btn.innerHTML = orig;
         btn.style.opacity = '1';
