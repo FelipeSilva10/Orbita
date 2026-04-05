@@ -3,720 +3,411 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Orbita — Robótica Educacional</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Bloquin</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:        #07090F;
-    --surface:   #0E1320;
-    --surface2:  #131B2E;
-    --border:    #1A2540;
-    --border2:   #232F47;
-    --blue:      #1A72E8;
-    --blue-dim:  #0D3C8A;
-    --blue-sub:  rgba(26,114,232,0.08);
-    --orange:    #F5820A;
-    --orange-sub:rgba(245,130,10,0.08);
-    --text:      #E8EEF8;
-    --text2:     #94A3B8;
-    --muted:     #4A5E80;
-    --green:     #22C55E;
-    --nav-bg:    rgba(7,9,15,0.85);
-    --grid-line: rgba(26,114,232,0.04);
-    --mono: 'Space Mono', monospace;
-    --body: 'DM Sans', sans-serif;
+    --bg:       #09090F;
+    --surface:  #111118;
+    --surface2: #18181F;
+    --border:   #202030;
+    --border2:  #2A2A3E;
+    --orange:   #FF6B2B;
+    --lime:     #7EE84A;
+    --blue:     #4A90E2;
+    --text:     #E8E8F0;
+    --text2:    #7878A0;
+    --muted:    #3A3A56;
+    --green:    #4ADE80;
+    --nav-bg:   rgba(9,9,15,0.92);
+    --mono: 'JetBrains Mono', monospace;
+    --body: 'Outfit', sans-serif;
   }
 
   html.light {
-    --bg:        #F4F6FA;
-    --surface:   #FFFFFF;
-    --surface2:  #EEF1F8;
-    --border:    #D4DCF0;
-    --border2:   #C0CEEA;
-    --blue:      #1A72E8;
-    --blue-dim:  #0D3C8A;
-    --blue-sub:  rgba(26,114,232,0.07);
-    --orange:    #E06C00;
-    --orange-sub:rgba(224,108,0,0.07);
-    --text:      #0D1526;
-    --text2:     #3D5278;
-    --muted:     #7A90B8;
-    --green:     #16A34A;
-    --nav-bg:    rgba(244,246,250,0.88);
-    --grid-line: rgba(26,114,232,0.055);
+    --bg:       #F2F2F8;
+    --surface:  #FFFFFF;
+    --surface2: #EAEAF4;
+    --border:   #DCDCEE;
+    --border2:  #C8C8E0;
+    --orange:   #D4520A;
+    --lime:     #4A9E1A;
+    --blue:     #2563EB;
+    --text:     #0C0C1C;
+    --text2:    #484870;
+    --muted:    #9090B8;
+    --green:    #16A34A;
+    --nav-bg:   rgba(242,242,248,0.92);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
 
   body {
     font-family: var(--body);
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* ── GRID BACKGROUND ─────────────────────────────────────────── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--grid-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,114,232,0.05) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ── NAV ─────────────────────────────────────────────────────── */
   nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    height: 56px;
+    height: 50px;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 40px;
+    padding: 0 32px;
     border-bottom: 1px solid var(--border);
     background: var(--nav-bg);
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    position: sticky; top: 0; z-index: 10;
   }
 
-  .nav-logo {
-    display: flex; align-items: center; gap: 12px;
-    text-decoration: none;
-  }
+  .nav-left { display: flex; align-items: center; gap: 10px; }
 
-  .nav-logo-mark {
-    width: 28px; height: 28px;
+  .logo-mark {
+    width: 26px; height: 26px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px; padding: 4px;
+    background: var(--surface2);
     border: 1px solid var(--border2);
     border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--surface2);
   }
+  .logo-mark span { border-radius: 1px; }
+  .logo-mark span:nth-child(1) { background: var(--orange); }
+  .logo-mark span:nth-child(2) { background: var(--orange); opacity: 0.45; }
+  .logo-mark span:nth-child(3) { background: var(--orange); opacity: 0.25; }
+  .logo-mark span:nth-child(4) { background: var(--lime); }
 
-  .nav-logo-mark svg {
-    width: 14px; height: 14px;
-  }
-
-  .nav-logo-text {
+  .logo-text {
     font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    color: var(--text);
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.16em; color: var(--text);
   }
 
-  .nav-right {
-    display: flex; align-items: center; gap: 24px;
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+
+  .nav-meta {
+    font-family: var(--mono);
+    font-size: 10px; color: var(--muted); letter-spacing: 0.08em;
   }
 
   .theme-toggle {
-    width: 32px; height: 32px;
-    border-radius: 7px;
-    border: 1px solid var(--border2);
-    background: var(--surface2);
-    cursor: pointer;
+    width: 28px; height: 28px;
+    border-radius: 6px; border: 1px solid var(--border2);
+    background: var(--surface2); cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    color: var(--muted);
-    transition: background 0.15s, border-color 0.15s, color 0.15s;
-    flex-shrink: 0;
+    color: var(--muted); transition: background 0.15s, color 0.15s;
   }
-
-  .theme-toggle:hover {
-    background: var(--surface);
-    border-color: var(--muted);
-    color: var(--text2);
-  }
-
-  .theme-toggle svg { width: 15px; height: 15px; }
-
+  .theme-toggle:hover { background: var(--surface); color: var(--text2); }
+  .theme-toggle svg { width: 13px; height: 13px; }
   .icon-moon { display: block; }
   .icon-sun  { display: none; }
   html.light .icon-moon { display: none; }
   html.light .icon-sun  { display: block; }
 
-  /* ── HERO ────────────────────────────────────────────────────── */
-  .hero {
-    position: relative; z-index: 1;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 100px 24px 80px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .hero-label {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 40px;
-    padding: 6px 14px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    background: var(--surface);
-  }
-
-  .hero-label-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: blink 2s step-end infinite;
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-
-  .hero-title {
-    font-family: var(--mono);
-    font-size: clamp(56px, 12vw, 104px);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    color: var(--text);
-    margin-bottom: 24px;
-  }
-
-  .hero-title-accent {
-    color: var(--blue);
-  }
-
-  .hero-sub {
-    font-size: 15px;
-    font-weight: 400;
-    color: var(--text2);
-    max-width: 380px;
-    line-height: 1.7;
-    margin: 0 auto 52px;
-  }
-
-  .hero-actions {
-    display: flex; align-items: center; gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--blue);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: var(--body);
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.15s, transform 0.1s;
-    letter-spacing: 0.01em;
-  }
-
-  .btn-primary:hover { background: #1566D4; transform: translateY(-1px); }
-
-  .btn-secondary {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--surface);
-    color: var(--text2);
-    border: 1px solid var(--border2);
-    border-radius: 8px;
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: var(--body);
-    cursor: pointer;
-    text-decoration: none;
-    transition: border-color 0.15s, color 0.15s, transform 0.1s;
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--muted);
-    color: var(--text);
-    transform: translateY(-1px);
-  }
-
-  /* ── PRODUCTS ────────────────────────────────────────────────── */
-  .products {
-    position: relative; z-index: 1;
-    max-width: 1040px;
-    margin: 0 auto;
-    padding: 80px 40px;
-  }
-
-  .block-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 32px;
-  }
-
-  .block-label::before {
-    content: '// ';
-    color: var(--border2);
-  }
-
-  .products-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .product-card {
-    background: var(--surface);
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    position: relative;
-    transition: background 0.2s;
-  }
-
-  .product-card:hover { background: var(--surface2); }
-
-  .card-top {
-    display: flex; align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 28px;
-  }
-
-  .card-icon {
-    width: 44px; height: 44px;
-    border-radius: 10px;
-    overflow: hidden;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  .card-icon img {
-    width: 100%; height: 100%;
-    object-fit: contain;
-  }
-
-  .card-badge {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    padding: 4px 8px;
-    border-radius: 4px;
-    border: 1px solid;
-  }
-
-  .badge-orange {
-    color: #FDBA74;
-    border-color: rgba(245,130,10,0.3);
-    background: rgba(245,130,10,0.06);
-  }
-
-  .badge-blue {
-    color: #93C5FD;
-    border-color: rgba(26,114,232,0.3);
-    background: rgba(26,114,232,0.06);
-  }
-
-  .card-name {
-    font-family: var(--mono);
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
-
-  .card-tagline {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 20px;
-  }
-
-  .card-desc {
-    font-size: 14px;
-    color: var(--text2);
-    line-height: 1.65;
-    margin-bottom: 28px;
+  main {
     flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 48px 24px;
   }
 
-  .card-features {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  .page-header {
+    width: 100%; max-width: 760px;
     margin-bottom: 28px;
+    display: flex; align-items: baseline;
+    justify-content: space-between; gap: 12px;
   }
 
-  .card-feature {
-    display: flex; align-items: baseline; gap: 10px;
+  .page-title {
     font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text2);
+    font-size: 10px; letter-spacing: 0.18em;
+    color: var(--muted); text-transform: uppercase;
   }
+  .page-title::before { content: '// '; color: var(--border2); }
 
-  .card-feature::before {
-    content: '→';
-    font-size: 10px;
-    flex-shrink: 0;
-  }
-
-  .bloquin-card .card-feature::before { color: var(--orange); }
-  .sag-card     .card-feature::before { color: var(--blue); }
-
-  .card-meta {
-    display: flex; gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 24px;
-  }
-
-  .meta-tag {
-    font-size: 11px;
+  .page-version {
     font-family: var(--mono);
-    color: var(--muted);
-    background: var(--bg);
+    font-size: 10px; color: var(--muted); letter-spacing: 0.08em;
+  }
+
+  .app-grid {
+    width: 100%; max-width: 760px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-bottom: 12px;
+  }
+
+  .app-tile {
+    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 3px 8px;
+    border-radius: 12px; padding: 28px;
+    display: flex; flex-direction: column; gap: 20px;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .app-tile:hover { background: var(--surface2); }
+  .bloquin-tile:hover { border-color: rgba(255,107,43,0.35); }
+  .sag-tile:hover     { border-color: rgba(74,144,226,0.35); }
+
+  .tile-header { display: flex; align-items: center; justify-content: space-between; }
+
+  .tile-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    border: 1px solid var(--border2); background: var(--surface2);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .tile-icon img { width: 80%; height: 80%; object-fit: contain; }
+  .icon-fallback {
+    font-family: var(--mono); font-size: 11px; font-weight: 800;
+    color: var(--text2); display: none;
   }
 
-  .card-divider {
-    height: 1px;
-    background: var(--border);
-    margin-bottom: 24px;
+  .tile-type {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.12em; font-weight: 700;
+    padding: 3px 8px; border-radius: 4px; border: 1px solid;
+  }
+  .bloquin-tile .tile-type {
+    color: var(--orange); border-color: rgba(255,107,43,0.25);
+    background: rgba(255,107,43,0.06);
+  }
+  .sag-tile .tile-type {
+    color: var(--blue); border-color: rgba(74,144,226,0.25);
+    background: rgba(74,144,226,0.06);
   }
 
-  .btn-card {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 11px;
-    border-radius: 7px;
-    border: 1px solid;
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.15s, transform 0.1s;
+  .tile-body { display: flex; flex-direction: column; gap: 4px; }
+
+  .tile-name {
+    font-family: var(--mono); font-size: 20px;
+    font-weight: 800; color: var(--text); letter-spacing: -0.02em;
   }
 
-  .bloquin-card .btn-card {
-    background: var(--orange-sub);
-    color: #FDBA74;
-    border-color: rgba(245,130,10,0.28);
+  .tile-sub {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text2); letter-spacing: 0.06em;
   }
 
-  .bloquin-card .btn-card:hover { background: rgba(245,130,10,0.14); }
-
-  .sag-card .btn-card {
-    background: var(--blue-sub);
-    color: #93C5FD;
-    border-color: rgba(26,114,232,0.28);
+  .tile-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 16px; border-top: 1px solid var(--border);
   }
 
-  .sag-card .btn-card:hover { background: rgba(26,114,232,0.14); }
+  .tile-tags { display: flex; gap: 5px; flex-wrap: wrap; }
 
-  /* ── STACK ───────────────────────────────────────────────────── */
-  .stack-section {
-    position: relative; z-index: 1;
-    max-width: 1040px;
-    margin: 0 auto;
-    padding: 0 40px 80px;
-    border-top: 1px solid var(--border);
+  .tile-tag {
+    font-family: var(--mono); font-size: 9px; color: var(--muted);
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 3px; padding: 2px 6px; letter-spacing: 0.06em;
   }
 
-  .stack-inner {
-    padding-top: 48px;
+  .tile-action {
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.1em; display: flex; align-items: center; gap: 5px;
   }
+  .bloquin-tile .tile-action { color: var(--orange); }
+  .sag-tile     .tile-action { color: var(--blue); }
 
   .stack-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
+    width: 100%; max-width: 760px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
   }
 
   .stack-cell {
-    background: var(--surface);
-    padding: 20px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+    background: var(--surface); padding: 14px 18px;
+    display: flex; flex-direction: column; gap: 4px;
   }
 
   .stack-key {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    color: var(--muted);
-    text-transform: uppercase;
+    font-family: var(--mono); font-size: 8px;
+    letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase;
   }
 
   .stack-val {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--text);
-    font-weight: 700;
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text2); font-weight: 500;
   }
 
-  /* ── FOOTER ──────────────────────────────────────────────────── */
   footer {
-    position: relative; z-index: 1;
-    border-top: 1px solid var(--border);
-    padding: 24px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
+    border-top: 1px solid var(--border); padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between;
   }
 
-  .footer-left {
-    display: flex; align-items: center; gap: 10px;
-  }
+  .footer-id { display: flex; align-items: center; gap: 8px; }
 
-  .footer-logo {
-    width: 22px; height: 22px;
-    border: 1px solid var(--border2);
-    border-radius: 5px;
-    background: var(--surface2);
-    display: flex; align-items: center; justify-content: center;
+  .footer-logo-mark {
+    width: 18px; height: 18px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5px; padding: 3px;
+    background: var(--surface2); border: 1px solid var(--border2); border-radius: 4px;
   }
-
-  .footer-logo svg { width: 11px; height: 11px; }
+  .footer-logo-mark span { border-radius: 1px; }
+  .footer-logo-mark span:nth-child(1) { background: var(--orange); }
+  .footer-logo-mark span:nth-child(2) { background: var(--orange); opacity: 0.4; }
+  .footer-logo-mark span:nth-child(3) { background: var(--orange); opacity: 0.2; }
+  .footer-logo-mark span:nth-child(4) { background: var(--lime); }
 
   .footer-name {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    color: var(--muted);
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; color: var(--muted);
   }
 
-  .footer-copy {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.06em;
+  .footer-right {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--muted); letter-spacing: 0.06em;
   }
 
-  /* ── RESPONSIVE ──────────────────────────────────────────────── */
-  @media (max-width: 720px) {
-    nav { padding: 0 20px; }
-    .nav-right .nav-link { display: none; }
-    .products { padding: 60px 20px; }
-    .products-grid { grid-template-columns: 1fr; }
-    .stack-section { padding: 0 20px 60px; }
+  .status-dot {
+    display: inline-block; width: 5px; height: 5px;
+    border-radius: 50%; background: var(--green);
+    margin-right: 4px; vertical-align: middle;
+    animation: blink 2.4s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; }
+    .nav-meta { display: none; }
+    main { padding: 32px 16px; }
+    .app-grid { grid-template-columns: 1fr; }
     .stack-row { grid-template-columns: 1fr 1fr; }
-    footer { padding: 20px; flex-direction: column; align-items: flex-start; }
+    footer { padding: 14px 16px; }
   }
 </style>
 </head>
 <body>
 
-<!-- Nav -->
 <nav>
-  <a class="nav-logo" href="#">
-    <div class="nav-logo-mark">
-      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="7" cy="7" r="2.5" stroke="#1A72E8" stroke-width="1.2"/>
-        <ellipse cx="7" cy="7" rx="6" ry="2.5" stroke="#1A72E8" stroke-width="0.8" stroke-opacity="0.5" transform="rotate(-30 7 7)"/>
-      </svg>
+  <div class="nav-left">
+    <div class="logo-mark">
+      <span></span><span></span>
+      <span></span><span></span>
     </div>
-    <span class="nav-logo-text">ORBITA</span>
-  </a>
-  <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
-    <!-- Moon (dark mode indicator) -->
-    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-    </svg>
-    <!-- Sun (light mode indicator) -->
-    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="5"/>
-      <line x1="12" y1="1" x2="12" y2="3"/>
-      <line x1="12" y1="21" x2="12" y2="23"/>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-      <line x1="1" y1="12" x2="3" y2="12"/>
-      <line x1="21" y1="12" x2="23" y2="12"/>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-    </svg>
-  </button>
+    <span class="logo-text">BLOQUIN</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-meta">uso interno</span>
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+  </div>
 </nav>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="hero-label">
-    <div class="hero-label-dot"></div>
-    Robótica Educacional · v2026
+<main>
+  <div class="page-header">
+    <span class="page-title">ferramentas</span>
+    <span class="page-version">v2026.1</span>
   </div>
-  <h1 class="hero-title"><span class="hero-title-accent">ORBITA</span></h1>
-  <p class="hero-sub">
-    Hub central das ferramentas de ensino e gestão de aulas de robótica.
-  </p>
-  <div class="hero-actions">
-    <a href="https://www.mediafire.com/file/h1e5z03az2uk84a/bloquin_0.1.0_x64-setup.exe/file" class="btn-primary" target="_blank">
-      ↓ Baixar Bloquin
-    </a>
-    <a href="https://sagsite.vercel.app/" class="btn-secondary" target="_blank">
-      Acessar SAG →
-    </a>
-  </div>
-</section>
 
-<!-- Products -->
-<div class="products" id="produtos">
-  <div class="block-label">produtos</div>
+  <div class="app-grid">
 
-  <div class="products-grid">
-
-    <!-- Bloquin -->
-    <div class="product-card bloquin-card">
-      <div class="card-top">
-        <div class="card-icon">
-          <img src="assets/Logo_Bloquin.png" alt="Bloquin">
+    <a class="app-tile bloquin-tile"
+       href="https://www.mediafire.com/file/h1e5z03az2uk84a/bloquin_0.1.0_x64-setup.exe/file"
+       target="_blank" rel="noopener">
+      <div class="tile-header">
+        <div class="tile-icon">
+          <img src="assets/Logo_Bloquin.png" alt="Bloquin IDE"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <span class="icon-fallback">BL</span>
         </div>
-        <span class="card-badge badge-orange">DESKTOP</span>
+        <span class="tile-type">DESKTOP</span>
       </div>
-
-      <div class="card-name">Bloquin</div>
-      <div class="card-tagline">Editor de programação em blocos</div>
-
-      <p class="card-desc">
-        Ambiente de programação visual para alunos. Arrasta, encaixa e compila para Arduino ou ESP32 — sem escrever uma linha de código.
-      </p>
-
-      <div class="card-features">
-        <span class="card-feature">Blocos visuais com Blockly</span>
-        <span class="card-feature">Compilação para Arduino e ESP32</span>
-        <span class="card-feature">Código C++ em tempo real</span>
-        <span class="card-feature">Trilhas de aprendizagem integradas</span>
+      <div class="tile-body">
+        <div class="tile-name">Bloquin IDE</div>
+        <div class="tile-sub">editor de blocos · Arduino / ESP32</div>
       </div>
-
-      <div class="card-meta">
-        <span class="meta-tag">Windows 10+</span>
-        <span class="meta-tag">64-bit</span>
-        <span class="meta-tag">~18 MB</span>
-        <span class="meta-tag">Tauri 2</span>
-      </div>
-
-      <div class="card-divider"></div>
-
-      <a href="https://www.mediafire.com/file/h1e5z03az2uk84a/bloquin_0.1.0_x64-setup.exe/file" class="btn-card" target="_blank" rel="noopener">
-        ↓ BAIXAR BLOQUIN
-      </a>
-    </div>
-
-    <!-- SAG -->
-    <div class="product-card sag-card">
-      <div class="card-top">
-        <div class="card-icon">
-          <img src="assets/logo_SAG.png" alt="SAG">
+      <div class="tile-footer">
+        <div class="tile-tags">
+          <span class="tile-tag">v0.1.0</span>
+          <span class="tile-tag">Win 10+</span>
+          <span class="tile-tag">64-bit</span>
         </div>
-        <span class="card-badge badge-blue">WEB</span>
+        <span class="tile-action">↓ baixar</span>
       </div>
+    </a>
 
-      <div class="card-name">SAG</div>
-      <div class="card-tagline">Sistema de Aulas e Gestão</div>
-
-      <p class="card-desc">
-        Painel para professores e administradores. Gerencie turmas, registre chamadas, acompanhe horas e distribua conteúdo pedagógico.
-      </p>
-
-      <div class="card-features">
-        <span class="card-feature">Chamada por horário e turma</span>
-        <span class="card-feature">Controle de horas e pagamento</span>
-        <span class="card-feature">Cronograma e gestão de turmas</span>
-        <span class="card-feature">Controle de acesso Admin / Professor</span>
+    <a class="app-tile sag-tile"
+       href="https://sagsite.vercel.app/"
+       target="_blank" rel="noopener">
+      <div class="tile-header">
+        <div class="tile-icon">
+          <img src="assets/logo_SAG.png" alt="SAG"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <span class="icon-fallback">SAG</span>
+        </div>
+        <span class="tile-type">WEB</span>
       </div>
-
-      <div class="card-meta">
-        <span class="meta-tag">Acesso web</span>
-        <span class="meta-tag">Qualquer navegador</span>
-        <span class="meta-tag">Next.js</span>
+      <div class="tile-body">
+        <div class="tile-name">SAG</div>
+        <div class="tile-sub">sistema de aulas e gestão</div>
       </div>
-
-      <div class="card-divider"></div>
-
-      <a href="https://sagsite.vercel.app/" class="btn-card" target="_blank">
-        → ACESSAR SAG
-      </a>
-    </div>
+      <div class="tile-footer">
+        <div class="tile-tags">
+          <span class="tile-tag"><span class="status-dot"></span>online</span>
+          <span class="tile-tag">Next.js</span>
+        </div>
+        <span class="tile-action">→ acessar</span>
+      </div>
+    </a>
 
   </div>
-</div>
 
-<!-- Stack -->
-<div class="stack-section" id="stack">
-  <div class="stack-inner">
-    <div class="block-label">stack técnica</div>
-    <div class="stack-row">
-      <div class="stack-cell">
-        <span class="stack-key">Bloquin</span>
-        <span class="stack-val">Tauri 2 + React + Rust</span>
-      </div>
-      <div class="stack-cell">
-        <span class="stack-key">SAG</span>
-        <span class="stack-val">Next.js + TypeScript</span>
-      </div>
-      <div class="stack-cell">
-        <span class="stack-key">Banco de dados</span>
-        <span class="stack-val">Supabase / PostgreSQL</span>
-      </div>
-      <div class="stack-cell">
-        <span class="stack-key">Plataforma</span>
-        <span class="stack-val">Windows 10+ · 64-bit</span>
-      </div>
+  <div class="stack-row">
+    <div class="stack-cell">
+      <span class="stack-key">Bloquin IDE</span>
+      <span class="stack-val">Tauri 2 · React · Rust</span>
+    </div>
+    <div class="stack-cell">
+      <span class="stack-key">SAG</span>
+      <span class="stack-val">Next.js · TypeScript</span>
+    </div>
+    <div class="stack-cell">
+      <span class="stack-key">Banco de dados</span>
+      <span class="stack-val">Supabase · PostgreSQL</span>
+    </div>
+    <div class="stack-cell">
+      <span class="stack-key">Plataforma</span>
+      <span class="stack-val">Windows 10+ · 64-bit</span>
     </div>
   </div>
-</div>
+</main>
 
-<!-- Footer -->
 <footer>
-  <div class="footer-left">
-    <div class="footer-logo">
-      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="7" cy="7" r="2.5" stroke="#1A72E8" stroke-width="1.2"/>
-        <ellipse cx="7" cy="7" rx="6" ry="2.5" stroke="#1A72E8" stroke-width="0.8" stroke-opacity="0.5" transform="rotate(-30 7 7)"/>
-      </svg>
+  <div class="footer-id">
+    <div class="footer-logo-mark">
+      <span></span><span></span>
+      <span></span><span></span>
     </div>
-    <span class="footer-name">ORBITA</span>
+    <span class="footer-name">BLOQUIN</span>
   </div>
-  <span class="footer-copy">SAG · 2026</span>
+  <span class="footer-right">© 2026 · uso interno</span>
 </footer>
 
 <script>
   const html = document.documentElement;
   const toggle = document.getElementById('themeToggle');
-
-  if (localStorage.getItem('orbita-theme') === 'light') html.classList.add('light');
-
+  if (localStorage.getItem('bloquin-theme') === 'light') html.classList.add('light');
   toggle.addEventListener('click', () => {
     html.classList.toggle('light');
-    localStorage.setItem('orbita-theme', html.classList.contains('light') ? 'light' : 'dark');
+    localStorage.setItem('bloquin-theme', html.classList.contains('light') ? 'light' : 'dark');
   });
 </script>
-
 </body>
 </html>
